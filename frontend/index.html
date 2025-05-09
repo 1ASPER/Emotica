@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Detection API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Mood Detection</h1>
+        <input type="text" id="messageInput" placeholder="Type a message..." oninput="getMood()">
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function getMood() {
+            const message = document.getElementById("messageInput").value;
+
+            if (message.trim() === "") {
+                document.getElementById("result").innerHTML = "";
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/predict_mood", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ text: message })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display the result (predicted mood and confidence score)
+                    document.getElementById("result").innerHTML = `
+                        <strong>Predicted Mood:</strong> ${data.predicted_mood}<br>
+                        <strong>Confidence Score:</strong> ${data.confidence_score.toFixed(2)}
+                    `;
+                } else {
+                    document.getElementById("result").innerHTML = "Error: " + data.detail;
+                }
+            } catch (error) {
+                document.getElementById("result").innerHTML = "Error connecting to API!";
+            }
+        }
+    </script>
+
+</body>
+</html>
