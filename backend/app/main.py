@@ -7,7 +7,7 @@ app = FastAPI()
 class Message(BaseModel):
     text: str
 
-model_path = "models/emotion_model/emotion_model"  
+model_path = "C:/Users/bapanov_n.AU.000/Desktop/Emotica/backend/emotion_model"
 emotion_classifier = pipeline("text-classification", model=model_path)
 
 @app.post("/predict_mood")
