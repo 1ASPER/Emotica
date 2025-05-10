@@ -10,7 +10,7 @@ The **Mood Detection API** is an AI-powered web service that classifies text inp
 
 Watch the demo of how the **Mood Detection API** works:
 
-![Mood Detection Demo](assets/videos/demo.mp4)
+![Mood Detection Demo](.\assets\videos\demo.mp4)
 
 ---
 
